@@ -6,7 +6,7 @@ MVP local com início, catálogo em dois grupos, 14 detalhes preenchidos, avalia
 Conteúdo tipado em src/data/componentes.ts; UI em src/components e src/pages; textos de interface em src/data/site.ts. Revisão de linguagem reduziu repetições e contextualizou siglas; textos têm 90 a 155 palavras por componente (sem títulos/legendas). Análise comparativa com manual em CONTEUDO.md.
 Quatorze SVGs originais locais: carregamento automatizado e inspeção visual das duas grades completos. A referência interna continua fora de Git e dist.
 Toda a URL real do Google Forms permanece em src/config/site.ts. Sem backend, persistência própria de respostas, credenciais ou analytics. Sem novo Forms, alteração de perguntas ou submissão pelo agente.
-vercel.json prepara npm run build, dist e rewrite para index.html. Preparação de envio ao GitHub autorizada pela usuária: branch main e origin para winternightsz/site-hardware, remoto consultado vazio antes do primeiro envio. Commit/push em preparação; confirmar resultado após execução. Vercel permanece sem deploy ou configuração de conta externa.
+vercel.json prepara npm run build, dist e rewrite para index.html. Código enviado ao GitHub com autorização explícita da usuária: https://github.com/winternightsz/site-hardware, branch main rastreando origin/main. O remoto estava vazio; o commit inicial e11e19cef5581ac2e170f5e15a47fd3df8b899f6 foi enviado e confirmado por comparação do HEAD com ls-remote. Uma atualização documental posterior registra o resultado; use git log ou a branch main do GitHub para identificar o último commit. Vercel permanece sem deploy ou configuração de conta externa.
 
 ## Verificações efetivamente executadas
 - npm test: 25 testes passaram.
@@ -41,3 +41,9 @@ Produção local: npm run build e depois npm run preview -- --host 127.0.0.1 --p
 - Leitor de tela real, zoom nativo 200% e celular físico.
 - Deploy somente com autorização explícita. Após deploy, testar o rewrite, assets e recarregamento no host real; a configuração local não comprova a hospedagem.
 Leia AGENTS.md, README e docs/ antes de mudanças grandes; atualize BACKLOG/HANDOFF ao concluir tarefas. Nenhuma funcionalidade FUTURA implementada.
+
+## Fechamento — GitHub e produção futura
+Commit inicial publicado: e11e19cef5581ac2e170f5e15a47fd3df8b899f6 (feat: versão inicial do site educativo de hardware). Push normal para origin/main confirmado em 06/11/2026; remoto estava vazio e não houve alteração de histórico existente.
+Nesta etapa, npm run build, npm run lint, npm test (25) e npm run test:build (2) passaram. A suíte de 48 cenários de navegador consta da revisão anterior; não foi repetida nesta entrega de versionamento/documentação, sem mudanças de UI.
+Node 26.x declarado em package.json e .nvmrc; package-lock atualizado sem alterar dependências. Foram revisados os 59 arquivos incluídos; referências, extração, ferramentas internas, capturas, dependências, dist, .env e credenciais ficaram fora do Git. A documentação de manutenção foi preservada.
+AGENTS.md continua consistente: este push teve autorização explícita e não concede autorização para deploy. Não foi instalada Vercel CLI, solicitada autenticação Vercel ou feita implantação. Não existe URL pública Vercel confirmada. Para publicar futuramente, seguir o roteiro manual do README e depois testar as rotas e registrar a URL real.

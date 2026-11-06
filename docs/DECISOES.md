@@ -41,3 +41,5 @@ Animações com respeito a prefers-reduced-motion, quiz breve sem persistência,
 - D26 (tomada): manter o checkout existente, main e origin do repositório informado. Remoto consultado antes de enviar; nenhuma branch ou histórico remoto encontrado. Sem clone, exclusão de histórico ou force push.
 - D27 (tomada): preservar docs de manutenção e testes no repositório; manter PDF, extração, ferramentas de referência, capturas e credenciais apenas locais e ignorados.
 - D28 (tomada): explicitar Node 26.x em package.json/.nvmrc, versão já validada localmente e suportada para build na Vercel conforme documentação consultada. Publicação futura somente pela interface, pelo responsável; nenhuma CLI ou deploy nesta etapa.
+
+- D29 (executada): commit inicial e11e19cef5581ac2e170f5e15a47fd3df8b899f6 enviado a origin/main e confirmado no GitHub em 06/11/2026. Documentação de fechamento em commit separado; Vercel permanece exclusivamente como preparação manual futura.

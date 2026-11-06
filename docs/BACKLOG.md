@@ -37,5 +37,5 @@ Os SVGs estáticos desta entrega não implementam interatividade. Nenhum item fu
 
 ## Entrega no GitHub e preparação de produção
 - PROD-01 (Concluído): build/lint, 25 testes locais e 2 testes do build aprovados nesta etapa; rewrite SPA preservado.
-- PROD-02 (Em execução): revisar arquivos, criar commit inicial solicitado e enviar para origin/main sem force push.
+- PROD-02 (Concluído): 59 arquivos revisados sem indícios de segredos; commit inicial e11e19cef5581ac2e170f5e15a47fd3df8b899f6 com a mensagem solicitada enviado a origin/main. Hash remoto confirmado; sem force push, clone ou exclusão de histórico. Atualização documental enviada em commit separado.
 - PROD-03 (Concluído): README com roteiro manual de importação GitHub → Vercel; Node 26.x alinhado com ambiente validado. Nenhuma CLI, autenticação Vercel ou implantação realizada.

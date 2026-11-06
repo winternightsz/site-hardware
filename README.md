@@ -49,7 +49,7 @@ Leitor de tela real, zoom nativo, celular físico, aceite acadêmico e recebimen
 
 ## SPA e futura hospedagem
 vercel.json prepara npm run build, saída dist e rewrite para /index.html. Isso permite servir a aplicação em URLs internas quando implantada na Vercel. Assets existentes devem continuar sendo servidos normalmente; host diferente exige fallback equivalente.
-URLs diretas e recarregamento foram verificados no preview local, não em infraestrutura Vercel. A configuração de Vercel está preparada e testada como arquivo; deploy e validação no host dependem de autorização explícita. Não há conta, projeto remoto ou domínio configurado.
+URLs diretas e recarregamento foram verificados no preview local, não em infraestrutura Vercel. A configuração de Vercel está preparada e testada como arquivo; deploy e validação no host dependem de autorização explícita. Nenhum projeto, domínio ou deploy Vercel foi configurado.
 
 ## Demonstração rápida
 1. Abra o início e explique o objetivo para leigos.
@@ -63,7 +63,7 @@ URLs diretas e recarregamento foram verificados no preview local, não em infrae
 Leia AGENTS.md e todos os documentos antes de mudanças grandes. Referências de implementação: [Vite](https://vite.dev/guide/), [Tailwind v4](https://tailwindcss.com/docs/installation/using-vite), [React Router declarativo v7](https://reactrouter.com/7.18.5/start/declarative/installation) e [rewrites Vercel](https://vercel.com/docs/rewrites). Nenhuma funcionalidade FUTURA foi adicionada.
 
 ## Repositório e tecnologias
-Repositório de destino: [winternightsz/site-hardware](https://github.com/winternightsz/site-hardware), branch principal main. Este projeto já existe na raiz do checkout; não é necessário gerar outro projeto para trabalhar nele.
+Código enviado ao repositório [winternightsz/site-hardware](https://github.com/winternightsz/site-hardware), branch principal main. Este projeto já existe na raiz do checkout; não é necessário gerar outro projeto para trabalhar nele.
 Stack: React 19, TypeScript 7, Vite 8, React Router 7 em modo declarativo, Tailwind CSS v4 com @tailwindcss/vite. Oxlint, node:test e Playwright são ferramentas de desenvolvimento.
 Node.js 26.x está declarado em package.json e .nvmrc para alinhar o build com o ambiente validado. package-lock.json é versionado; use npm ci para instalação reproduzível.
 
