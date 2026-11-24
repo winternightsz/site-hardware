@@ -46,4 +46,4 @@ Os SVGs estáticos desta entrega não implementam interatividade. Nenhum item fu
 - GH-03 (Concluído): layout revisado nas seis larguras pedidas, sem overflow horizontal nos percursos automatizados; CSS reutilizável, sem esconder body e sem redesign.
 - GH-04 (Concluído): testes antigos preservados e adaptados à base/hash; 27 locais, 2 do build, 156 em desenvolvimento e 18 em produção passaram. Capturas/limites em HANDOFF.md.
 - GH-05 (Concluído): documentação técnica reconciliada com HashRouter, base e publicação automática GitHub Pages.
-- GH-06 (Pendente externo): conferir resultado do workflow para o commit enviado e a página pública; não tratar push como deploy confirmado. Leitor de tela, celular físico e serviço Google continuam com seus limites registrados.
+- GH-06 (Concluído para fa359c0): workflow 45493493222 concluído com success; checagem do site público confirmou 18 imagens carregadas, seções sem mudança de rota, recarga do detalhe e avaliação presente em 390px sem overflow. Google foi isolado e nenhuma resposta foi enviada. Leitor de tela, celular físico e serviço Google continuam com seus limites registrados.

@@ -41,3 +41,8 @@ Demonstre: início → catálogo → os dois links de seção → detalhe → re
 Commit e push para origin/main autorizados nesta tarefa, com mensagem “fix: corrigir imagens navegacao e responsividade”. Conferir o commit efetivo em git log e o resultado do workflow em Actions; push não é confirmação de deploy concluído. Não foi feita publicação manual nem alteração do workflow.
 Antes de enviar, revisar diff/segredos e consultar novamente origin/main; não sobrescrever commits remotos novos. PDF, extração, node_modules, dist e capturas permanecem ignorados.
 Após a execução automática, conferir o endereço real exibido em Settings → Pages, imagens e seções no site público. A confirmação de disponibilidade do Google e o teste de recebimento continuam com o responsável. Sem funcionalidades FUTURAS nesta entrega.
+
+## Confirmação após push — 24/11/2026
+Commit de correção fa359c09494395dfe6da84f4d316e0c666ca36b2 enviado a origin/main. Workflow https://github.com/winternightsz/site-hardware/actions/runs/45493493222 concluiu com success para esse commit.
+A API confirmou https://winternightsz.github.io/site-hardware/. Checagem pública em Edge com largura 390px confirmou 18 imagens (Home, catálogo e primeiro detalhe), foco/rota das duas seções, recarga do detalhe e controles da avaliação, sem overflow horizontal. O conteúdo externo Google foi interceptado também nessa checagem; não houve preenchimento ou envio de respostas.
+Esta confirmação é registrada em commit documental posterior; não afirma que o serviço Google foi aprovado nem altera o workflow. Após novos pushes, acompanhe a execução correspondente no Actions.
