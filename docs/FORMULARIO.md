@@ -60,3 +60,6 @@ Consultadas em 06/11/2026. Políticas de contas institucionais podem limitar pub
 
 ## Revisão de qualidade — 06/11/2026
 O comportamento real foi reconferido: alternativa abriu cinco perguntas sem login e sem campo de e-mail; iframe recebeu HTTP 401/pedido de login neste ambiente. Nenhuma resposta enviada ou pergunta alterada. Os 48 testes de UI isolam Google, portanto não aprovam o acesso incorporado real. Evidências e pendências em QUALIDADE.md.
+
+## Endereço local atual — 24/11/2026
+Com HashRouter e base do GitHub Pages, abra http://127.0.0.1:5173/site-hardware/#/avaliacao no servidor de desenvolvimento. URL, perguntas e configurações do formulário não foram alteradas na correção de responsividade; os testes atuais de iframe interceptam o conteúdo externo e não validam disponibilidade do Google.

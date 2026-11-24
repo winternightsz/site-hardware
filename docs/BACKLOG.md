@@ -1,9 +1,9 @@
 # Backlog
-Atualizado em 06/11/2026. P0 = fundação; P1 = essencial; P2 = opcional. Implementação e aceite humano são estados distintos.
+Atualizado em 24/11/2026. P0 = fundação; P1 = essencial; P2 = opcional. Implementação e aceite humano são estados distintos.
 
 | ID | Prioridade | Tarefa | Status | Critério verificável / evidência |
 | --- | --- | --- | --- | --- |
-| MVP-01 | P0 | Base Vite/React/TS, Tailwind v4 e Router declarativo na raiz | Concluído | Instalação, lint/build aprovados; BrowserRouter/Routes/Route em src/App.tsx. |
+| MVP-01 | P0 | Base Vite/React/TS, Tailwind v4 e Router declarativo na raiz | Concluído | Instalação, lint/build aprovados; HashRouter/Routes/Route em src/App.tsx; base /site-hardware/ e workflow Pages preservados. |
 | MVP-02 | P0 | Git e proteção de referência/segredos | Concluído | Git local; check-ignore protege referencias/, .env, node_modules e dist. Branch main e origin configurados para o GitHub indicado; sem deploy do site. |
 | MVP-03 | P0 | Extração e revisão inicial da referência | Concluído | 41 páginas extraídas; rastreio e correções em CONTEUDO.md. |
 | MVP-04 | P0 | Documentação de produto e continuidade | Concluído | AGENTS, README e docs atualizados; QUALIDADE.md reúne evidências/limites da revisão, e HANDOFF inclui roteiro de demonstração. |
@@ -13,13 +13,13 @@ Atualizado em 06/11/2026. P0 = fundação; P1 = essencial; P2 = opcional. Implem
 | MVP-08 | P2 | Integração condicional da avaliação | Concluído | URL real fornecida pela usuária em src/config/site.ts; iframe correto e alternativa em nova aba. Link real abriu cinco perguntas sem login; iframe recebeu HTTP 401/pedido de login neste ambiente. Alternativa preservada e aviso atualizado. |
 | MVP-09 | P1 | Aceite técnico e didático final | Em revisão | Adaptação e revisão pelo agente concluídas; limites/correções documentados. Orientador e público leigo ainda precisam conferir conteúdo e reconhecimento das ilustrações. |
 | MVP-10 | P1 | Acessibilidade e responsividade | Parcial | Teclado, foco, ausência de overflow em 320px/desktop e reflow CSS 200% passaram; capturas e contraste das combinações principais (mínimo 5,52:1) inspecionados. Leitor de tela, zoom nativo e dispositivo físico pendentes. |
-| MVP-11 | P1 | Aceite integrado | Parcial | 25 testes locais + 48 cenários de navegador + 2 verificações de build, lint/build aprovados; dist sem PDF e sem referência interna. Aceite humano de MVP-09/10 permanece pendente. |
+| MVP-11 | P1 | Aceite integrado | Parcial | 27 testes locais + 156 cenários de desenvolvimento + 18 cenários de produção + 2 verificações de build, lint/build aprovados; dist sem PDF e sem referência interna. Aceite humano de MVP-09/10 permanece pendente. |
 
 ## Revisão de qualidade — escopo atual
 - QA-01 (Concluído): favicon local, marcadores de lista, títulos com barra final e revisão de linguagem/siglas. Testes e capturas em QUALIDADE.md.
 - QA-02 (Concluído): configuração vercel.json e verificações de URLs/assets no preview local. Não representa deploy validado.
 - QA-03 (Concluído): reconferência textual dos 14 temas versus extração do manual e inspeção das 14 ilustrações no site; limites documentados em CONTEUDO.md.
-- QA-04 (Pendente — futura autorização de hospedagem): verificar recarga, assets e acesso direto no host Vercel real após deploy autorizado.
+- QA-04 (Histórico — somente em eventual migração para Vercel): verificar recarga, assets e acesso direto no host Vercel real após deploy autorizado.
 
 ## Pendências da avaliação externa
 - FORMS-01 (Concluído): script FormApp com cinco questões exatas, obrigatórias e escolha única; configurações/logs testados localmente com serviços simulados.
@@ -39,3 +39,11 @@ Os SVGs estáticos desta entrega não implementam interatividade. Nenhum item fu
 - PROD-01 (Concluído): build/lint, 25 testes locais e 2 testes do build aprovados nesta etapa; rewrite SPA preservado.
 - PROD-02 (Concluído): 59 arquivos revisados sem indícios de segredos; commit inicial e11e19cef5581ac2e170f5e15a47fd3df8b899f6 com a mensagem solicitada enviado a origin/main. Hash remoto confirmado; sem force push, clone ou exclusão de histórico. Atualização documental enviada em commit separado.
 - PROD-03 (Concluído): README com roteiro manual de importação GitHub → Vercel; Node 26.x alinhado com ambiente validado. Nenhuma CLI, autenticação Vercel ou implantação realizada.
+
+## Correções GitHub Pages — 24/11/2026
+- GH-01 (Concluído): preservar correção prévia de imagens e fortalecer assetUrl; URLs públicas, externas/importadas e prefixadas testadas; imagens com naturalWidth > 0 no build sob /site-hardware/.
+- GH-02 (Concluído): SectionLink no catálogo e skip link; foco/rolagem sem alterar a rota, mouse/toque/teclado e movimento reduzido, inclusive após recarga.
+- GH-03 (Concluído): layout revisado nas seis larguras pedidas, sem overflow horizontal nos percursos automatizados; CSS reutilizável, sem esconder body e sem redesign.
+- GH-04 (Concluído): testes antigos preservados e adaptados à base/hash; 27 locais, 2 do build, 156 em desenvolvimento e 18 em produção passaram. Capturas/limites em HANDOFF.md.
+- GH-05 (Concluído): documentação técnica reconciliada com HashRouter, base e publicação automática GitHub Pages.
+- GH-06 (Pendente externo): conferir resultado do workflow para o commit enviado e a página pública; não tratar push como deploy confirmado. Leitor de tela, celular físico e serviço Google continuam com seus limites registrados.

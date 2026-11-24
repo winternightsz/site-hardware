@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { Link, NavLink, useLocation } from 'react-router'
 import { componentes } from '../data/componentes'
 import { site } from '../data/site'
+import { SectionLink } from './SectionLink'
 
 function Navigation() {
   return <nav aria-label={site.navigation} className="navigation">
@@ -32,7 +33,7 @@ export function Layout({ children }: { children: ReactNode }) {
   }, [pathname, normalizedPath])
 
   return <>
-    <a className="skip-link" href="#conteudo">{site.skip}</a>
+    <SectionLink className="skip-link" targetId="conteudo">{site.skip}</SectionLink>
     <header className="site-header">
       <div className="container header-inner">
         <Link className="brand" to="/" aria-label={site.name}>

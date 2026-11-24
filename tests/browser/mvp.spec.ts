@@ -1,3 +1,4 @@
+import { appUrl } from './support'
 import { test, expect } from '@playwright/test'
 import { componentes } from '../../src/data/componentes'
 import { site } from '../../src/data/site'
@@ -5,7 +6,7 @@ import { site } from '../../src/data/site'
 test('início, menu, catálogo e imagens funcionam sem rolagem horizontal', async ({ page }, testInfo) => {
   const errors: string[] = []
   page.on('pageerror', error => errors.push(error.message))
-  await page.goto('/')
+  await page.goto(appUrl('/'))
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(site.title)
   await page.screenshot({ path: testInfo.outputPath('inicio.png'), fullPage: true })
   await page.getByRole('link', { name: site.explore }).first().click()
@@ -23,7 +24,7 @@ test('início, menu, catálogo e imagens funcionam sem rolagem horizontal', asyn
   }
   for (const link of await page.locator('.card-link').all()) {
     const href = await link.getAttribute('href')
-    expect(componentes.some(item => href === '/componentes/' + item.slug)).toBe(true)
+    expect(componentes.some(item => href === '#/componentes/' + item.slug)).toBe(true)
   }
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   await page.screenshot({ path: testInfo.outputPath('catalogo.png'), fullPage: true })
@@ -32,7 +33,7 @@ test('início, menu, catálogo e imagens funcionam sem rolagem horizontal', asyn
 
 for (const componente of componentes) {
   test('detalhe direto: ' + componente.slug, async ({ page }, testInfo) => {
-    const response = await page.goto('/componentes/' + componente.slug)
+    const response = await page.goto(appUrl('/componentes/' + componente.slug))
     expect(response?.ok()).toBe(true)
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(componente.nome)
     await expect(page).toHaveTitle(componente.nome + ' | ' + site.name)
@@ -47,7 +48,7 @@ for (const componente of componentes) {
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
     const next = componentes[(componentes.indexOf(componente) + 1) % componentes.length]
     const nextLink = page.getByRole('link', { name: new RegExp(site.next) })
-    await expect(nextLink).toHaveAttribute('href', '/componentes/' + next.slug)
+    await expect(nextLink).toHaveAttribute('href', '#/componentes/' + next.slug)
     await nextLink.click()
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(next.nome)
     await expect(page.getByRole('main')).toBeFocused()
@@ -69,7 +70,7 @@ test('avaliação informa pendência e não oferece formulário ou envio', async
   page.on('request', request => {
     if (!request.url().startsWith('http://127.0.0.1:4173/')) externalRequests.push(request.url())
   })
-  await page.goto('/avaliacao')
+  await page.goto(appUrl('/avaliacao'))
   await expect(page.getByRole('heading', { name: site.evaluationStatus })).toBeVisible()
   await expect(page.getByText(site.evaluationPending)).toBeVisible()
   await expect(page.locator('form, input, textarea, iframe, button[type="submit"]')).toHaveCount(0)
@@ -80,7 +81,7 @@ test('avaliação informa pendência e não oferece formulário ou envio', async
 
 test('rotas e slugs inexistentes exibem recuperação amigável', async ({ page }) => {
   for (const route of ['/nao-existe', '/componentes/nao-existe']) {
-    await page.goto(route)
+    await page.goto(appUrl(route))
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(site.notFoundTitle)
     await page.getByRole('link', { name: site.back, exact: true }).click()
     await expect(page).toHaveURL(/\/$/)
@@ -88,12 +89,12 @@ test('rotas e slugs inexistentes exibem recuperação amigável', async ({ page 
 })
 
 test('teclado, foco e ampliação de conteúdo', async ({ page }, testInfo) => {
-  await page.goto('/')
+  await page.goto(appUrl('/'))
   await page.keyboard.press('Tab')
   await expect(page.getByRole('link', { name: site.skip })).toBeFocused()
   await page.keyboard.press('Enter')
   await expect(page.getByRole('main')).toBeFocused()
-  await page.goto('/componentes')
+  await page.goto(appUrl('/componentes'))
   const card = page.locator('.card-link').first()
   await card.focus()
   await page.keyboard.press('Enter')

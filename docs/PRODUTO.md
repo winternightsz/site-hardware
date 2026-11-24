@@ -35,3 +35,6 @@ Todos os RF implementados e revisados; cada um dos 14 temas acessível por link 
 
 ## Avaliação — escopo autorizado nesta etapa
 Cinco perguntas definidas pelo responsável, todas obrigatórias e de escolha única; sem campo livre, nome ou e-mail. Participar é voluntário, mas quem optar por enviar responde às cinco. Menu e fim do conteúdo têm chamada à avaliação. Formulário existente e URL real fornecidos pela responsável. Script administrativo preservado somente como referência, sem nova execução. Conferência de acesso incorporado e teste de envio/recebimento real continuam com a responsável. Detalhes exatos em FORMULARIO.md.
+
+## Hospedagem atual — 24/11/2026
+As rotas acima são internas ao HashRouter. No GitHub Pages, aparecem após /site-hardware/#/. A publicação é realizada pelo workflow existente em pushes autorizados para main. Não há migração para Vercel nesta tarefa; requisitos educacionais permanecem os mesmos.

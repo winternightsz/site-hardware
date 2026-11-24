@@ -1,85 +1,72 @@
 # Segmentando um Computador
-Projeto universitário de extensão para explicar hardware a pessoas sem conhecimento prévio. Nome provisório. O MVP local tem 14 componentes, catálogo em dois grupos, detalhes, avaliação Google Forms e erro amigável. Não ensina montagem nem recomenda compras. Sem backend, autenticação ou armazenamento próprio de respostas. Site ainda não implantado na Vercel.
+Site educativo sobre a função dos componentes do computador, com linguagem para iniciantes. React 19, TypeScript 7, Vite 8, Tailwind CSS v4 e React Router 7 declarativo. São 14 temas, catálogo em dois grupos, detalhes com analogias e avaliação via Google Forms. Sem tutorial de montagem, recomendações de compra, backend ou armazenamento próprio de respostas.
 
-## Abrir o site
-No PowerShell:
-```powershell
-# Na raiz deste repositório
+## Executar localmente
+Use Node 26.x (package.json/.nvmrc) e, na raiz do projeto:
+```sh
 npm ci
 npm run dev -- --host 127.0.0.1 --port 5173 --strictPort
 ```
-Abra **http://127.0.0.1:5173/**. Ctrl+C encerra o servidor. Se as dependências já estiverem instaladas, não precisa repetir npm ci. Não abra index.html pelo explorador.
-Ambiente verificado: Node 26.13.0 e npm 11.20.0. Para reproduzir este ambiente e o build futuro da Vercel, use Node 26.x conforme package.json/.nvmrc.
+Abra **http://127.0.0.1:5173/site-hardware/#/**. Ctrl+C encerra o servidor. Não abra index.html pelo explorador de arquivos.
 
-## Verificar e conferir produção local
+## Rotas e hospedagem atuais
+O código usa **HashRouter**, base Vite **/site-hardware/** e **GitHub Pages**. Exemplos de caminhos:
+- /site-hardware/#/ — início.
+- /site-hardware/#/componentes — catálogo.
+- /site-hardware/#/componentes/memoria-ram — detalhe.
+- /site-hardware/#/avaliacao — avaliação.
+O servidor recebe o caminho antes do hash, portanto recarregar uma rota interna não exige rewrite do GitHub Pages. Links de seção usam SectionLink para rolar e focar IDs existentes sem substituir o hash da rota; não use href="#principais" diretamente.
+
+Repositório: [winternightsz/site-hardware](https://github.com/winternightsz/site-hardware), branch main.
+.github/workflows/deploy.yml já publica dist no Pages em pushes para main e permite execução manual. O workflow foi preservado. Após um push, acompanhe a execução em Actions e use o endereço exibido em Settings → Pages; não trate push como confirmação de deploy concluído.
+vercel.json é uma configuração legada para outro host, não o mecanismo atual de publicação. Uma eventual migração para a raiz de outro domínio exige revisar base e URLs, e está fora desta tarefa.
+
+## Build e verificações
 ```sh
 npm test
 npm run lint
 npm run build
 npm run test:build
 npm run test:e2e
+npm run test:production
+```
+- test: 27 testes locais, incluindo 14 temas, campos, assets, script administrativo simulado e resolução de URLs.
+- lint: Oxlint sobre código, testes e configurações.
+- build: TypeScript e Vite para dist, usando a base real do Pages.
+- test:build: 2 verificações de saída/arquivos e acesso HTTP no preview com base.
+- test:e2e: suíte de desenvolvimento adaptada a HashRouter, preservando testes anteriores e adicionando seções/teclado/movimento reduzido. Seis larguras: 320, 375, 390, 768, 1024 e 1280px.
+- test:production: recompila e testa o bundle real no preview em /site-hardware/, incluindo todas as páginas, naturalWidth das imagens, seções, recarga, menu e iframe isolado.
+
+Playwright usa Edge instalado por padrão; para Chromium, instale-o com npx playwright install chromium e defina PLAYWRIGHT_CHANNEL=chromium. Não é necessário navegador de teste para usar o site. Nenhuma dependência nova foi adicionada nesta correção.
+Para abrir o build manualmente:
+```sh
 npm run preview -- --host 127.0.0.1 --port 4173 --strictPort
 ```
-Abra http://127.0.0.1:4173/ para ver o build. Execute os comandos em sequência: preview e test:e2e usam a mesma porta e não devem ficar ativos ao mesmo tempo. test:build precisa de dist atualizado e usa 4187.
-- npm test: 25 testes leves de conteúdo, imagens, URL, script simulado, metadados e configuração SPA.
-- npm run lint: Oxlint sobre código, testes e configurações.
-- npm run build: TypeScript e Vite, saída estática em dist.
-- npm run test:build: 2 testes da saída e de URLs/assets no preview de produção.
-- npm run test:e2e: 48 cenários de navegador em desktop 1280px e mobile emulado 320px, com Edge já instalado. Testes de UI isolam o conteúdo do Google; não provam a disponibilidade do serviço externo.
+Abra **http://127.0.0.1:4173/site-hardware/#/**. Não mantenha preview e test:e2e simultaneamente na porta 4173. Testes de produção usam 4175; test:build usa 4187.
 
-Para outro navegador suportado, instale Chromium com npx playwright install chromium e defina PLAYWRIGHT_CHANNEL=chromium antes de test:e2e. Não é necessário instalar navegador de testes para usar o site. Capturas ficam em test-results/, ignorado pelo Git.
+## Estrutura e manutenção
+- src/data/componentes.ts: conteúdo tipado; src/data/site.ts: textos da interface.
+- src/utils/assetUrl.ts: resolve arquivos de public com import.meta.env.BASE_URL; preserva URLs externas/embutidas e caminhos já prefixados. Não concatene a base novamente nas páginas.
+- src/components/SectionLink.tsx: links internos de rolagem com foco e respeito a prefers-reduced-motion.
+- src/components e src/pages: UI e composição.
+- public/imagens: 14 SVGs originais; public/favicon.svg: ícone.
+- src/config/site.ts: única URL pública de resposta do Google Forms.
+- docs/: produto, arquitetura, rastreio editorial, decisões, backlog e handoff.
+- referencias/, dist, node_modules e capturas: apenas locais, ignorados pelo Git. Não distribuir o PDF ou a extração.
+- package-lock.json: dependências reproduzíveis.
 
-## Rotas e organização
-- /: apresentação, objetivo, catálogo e chamada à avaliação.
-- /componentes: sete componentes principais e sete outros.
-- /componentes/:slug: figura, analogia/limite, função, exemplo, complementos e próximo componente.
-- /avaliacao: iframe e alternativa em outra aba; indisponibilidade honesta sem URL válida.
-- Rotas e slugs inexistentes: página de recuperação.
-- src/data/componentes.ts: conteúdo tipado; src/data/site.ts: textos de UI.
-- src/config/site.ts: única URL pública de resposta do Google Forms, já configurada.
-- src/components e src/pages: UI reutilizável e composição.
-- public/imagens: 14 SVGs originais; public/favicon.svg: ícone local.
-- docs: produto, arquitetura, backlog, decisões, conteúdo, formulário, revisão e handoff.
-- referencias/: fonte interna ignorada, nunca distribuída.
-- package-lock.json: versões reproduzíveis.
+Preserve os textos alternativos e as proporções das ilustrações. Os dados podem conservar /imagens/arquivo.svg como identificação do recurso; a UI deve passar esse valor por assetUrl. Imagens importadas pelo Vite já têm seu endereço resolvido; não precisam ser convertidas em caminhos de public.
 
-## Formulário e pendências
-O link real em nova aba abriu as cinco perguntas sem login e sem campo de e-mail em sessão limpa. Na mesma conferência, o iframe retornou HTTP 401/pedido de login; o aviso orienta usar a alternativa. Não foi preenchida ou enviada resposta e não se alterou o formulário. Não execute o script de criação novamente.
-Leitor de tela real, zoom nativo, celular físico, aceite acadêmico e recebimento de resposta real continuam pendentes. Resultados e limites em docs/QUALIDADE.md e docs/HANDOFF.md.
+## Avaliação e limites de validação
+A URL real permanece configurada. Testes de UI interceptam o conteúdo externo para verificar o aplicativo sem enviar respostas ou depender da rede. Isso não valida as permissões/serviço real do Google.
+A última conferência real documentada abriu as cinco perguntas na alternativa, mas recebeu HTTP 401/pedido de login no iframe. Nenhum formulário foi criado/alterado nesta correção. Conferência real de envio/recebimento, leitor de tela, zoom nativo e celular físico continuam com o responsável.
+Capturas e relatórios de testes ficam em test-results/, ignorado. Resultados efetivos da entrega em docs/HANDOFF.md.
 
-## SPA e futura hospedagem
-vercel.json prepara npm run build, saída dist e rewrite para /index.html. Isso permite servir a aplicação em URLs internas quando implantada na Vercel. Assets existentes devem continuar sendo servidos normalmente; host diferente exige fallback equivalente.
-URLs diretas e recarregamento foram verificados no preview local, não em infraestrutura Vercel. A configuração de Vercel está preparada e testada como arquivo; deploy e validação no host dependem de autorização explícita. Nenhum projeto, domínio ou deploy Vercel foi configurado.
-
-## Demonstração rápida
-1. Abra o início e explique o objetivo para leigos.
-2. Clique em Explorar componentes e mostre os dois grupos.
-3. Abra Memória RAM; relacione a mesa de trabalho com o armário de HD/SSD.
-4. Mostre a explicação, os complementos e o botão para outra peça.
-5. Recarregue a página de detalhes para demonstrar a rota direta local.
-6. Vá à avaliação e abra o formulário em outra aba se o iframe pedir login; não envie respostas na demonstração.
-7. Mostre o layout estreito e uma rota inexistente.
-
-Leia AGENTS.md e todos os documentos antes de mudanças grandes. Referências de implementação: [Vite](https://vite.dev/guide/), [Tailwind v4](https://tailwindcss.com/docs/installation/using-vite), [React Router declarativo v7](https://reactrouter.com/7.18.5/start/declarative/installation) e [rewrites Vercel](https://vercel.com/docs/rewrites). Nenhuma funcionalidade FUTURA foi adicionada.
-
-## Repositório e tecnologias
-Código enviado ao repositório [winternightsz/site-hardware](https://github.com/winternightsz/site-hardware), branch principal main. Este projeto já existe na raiz do checkout; não é necessário gerar outro projeto para trabalhar nele.
-Stack: React 19, TypeScript 7, Vite 8, React Router 7 em modo declarativo, Tailwind CSS v4 com @tailwindcss/vite. Oxlint, node:test e Playwright são ferramentas de desenvolvimento.
-Node.js 26.x está declarado em package.json e .nvmrc para alinhar o build com o ambiente validado. package-lock.json é versionado; use npm ci para instalação reproduzível.
-
-## Publicar futuramente pela interface da Vercel
-Este roteiro é para execução manual futura; nenhum deploy foi executado pelo agente.
-1. Abra https://vercel.com/ e entre na conta que será responsável pela hospedagem.
-2. No painel, escolha **Add New → Project**. Conecte o GitHub, se necessário, concedendo acesso ao repositório winternightsz/site-hardware.
-3. Importe **site-hardware** e confirme a branch de produção **main**.
-4. Mantenha a raiz do projeto em **./** (raiz do repositório). Escolha o preset **Vite**.
-5. Confira as configurações: **Install Command: npm ci**, **Build Command: npm run build**, **Output Directory: dist**, **Node.js: 26.x**. O build e o diretório de saída já estão declarados em vercel.json.
-6. Não há variáveis de ambiente obrigatórias. A URL pública de resposta do Google Forms está em src/config/site.ts; não insira credenciais Google. Não envie a pasta referencias/.
-7. Somente quando decidir publicar, clique em **Deploy** e aguarde o build. Copie a URL de produção exibida no painel; não há URL Vercel confirmada antes disso.
-8. Abra a URL e teste /, /componentes, /componentes/memoria-ram e /avaliacao. Recarregue cada rota interna para conferir o rewrite de SPA. Confira imagens, favicon e a alternativa do formulário; o iframe pode exigir login conforme o ambiente.
-9. Registre a URL e o resultado dessas verificações em docs/HANDOFF.md. Após a integração GitHub/Vercel, novos pushes em main podem gerar implantações automáticas conforme as configurações do projeto.
-
-Não é necessário usar Vercel CLI. O rewrite já existente corresponde à recomendação para [Vite SPA na Vercel](https://vercel.com/docs/frameworks/frontend/vite#using-vite-to-make-spas). A versão do Node pode ser conferida na [documentação de versões suportadas](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions).
-
-## Arquivos que permanecem apenas locais
-.gitignore exclui referencias/ (PDF, texto extraído e ferramenta de extração), node_modules/, dist/, capturas/relatórios de teste, .env, chaves, arquivos de credenciais e estado local de ferramentas. Os documentos em docs/, AGENTS.md e scripts/criar-formulario.gs são necessários para manutenção, rastreio editorial e testes; serão preservados no repositório. O script administrativo não entra no build nem deve ser executado novamente para o formulário existente.
+## Demonstração
+1. Abra o início e clique em Explorar componentes.
+2. Use os dois links de seção, inclusive após recarregar, mostrando que a rota não muda.
+3. Abra Memória RAM e compare sua analogia com armazenamento.
+4. Mostre ilustração, função, exemplo e próximo componente.
+5. Recarregue a rota de detalhe e navegue pelo menu em tela estreita.
+6. Abra a avaliação e use a alternativa caso o iframe solicite login; não envie dados durante a apresentação.
+7. Confira a página amigável para uma rota inexistente.

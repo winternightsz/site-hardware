@@ -42,3 +42,6 @@ O teste não determina a causa do bloqueio incorporado nem garante disponibilida
 3. Acessibilidade: leitor de tela real, zoom nativo 200% e celular físico.
 4. Produto: nome/informações institucionais e aceite acadêmico dos textos/imagens com público leigo.
 Nenhuma pendência foi marcada como concluída sem evidência. Quiz, animações e ilustrações interativas continuam fora do escopo.
+
+## Atualização de compatibilidade Pages — 24/11/2026
+O registro de 06/11 acima é histórico. A arquitetura atual usa HashRouter e base /site-hardware/, com workflow GitHub Actions preservado. Nesta correção passaram build, lint, 27 testes locais, 2 do build, 156 cenários de desenvolvimento e 18 de produção nas larguras 320/375/390/768/1024/1280px. Inspeção visual efetiva e a falha inicial corrigida no teste de teclado de produção estão detalhadas no HANDOFF atual. Os testes do Google são interceptados e não representam envio ou aprovação de acesso externo.

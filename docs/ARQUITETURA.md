@@ -1,43 +1,28 @@
 # Arquitetura
-## Base e rotas
-SPA estática: Vite 8, React 19, TypeScript 7, Tailwind CSS v4 e React Router 7 em modo declarativo. Versões resolvidas em package-lock.json. Tailwind integrado por @tailwindcss/vite e @import "tailwindcss", sem configuração legada v3.
-src/main.tsx inicia React; src/App.tsx usa BrowserRouter/Routes/Route para /, /componentes, /componentes/:slug, /avaliacao e *. Detalhe valida slug e também usa NotFound. Os caminhos têm correspondência exata; vercel.json prepara build em dist e rewrite de SPA para index.html. Nenhum host ou conta foi configurado. A aplicação também trata barras finais nos títulos.
+Atualizado em 24/11/2026. O código atual é a fonte de verdade; as decisões históricas de 06/11 estão em DECISOES.md.
 
-## Dados
-src/data/componentes.ts exporta Componente, Categoria, categorias e componentes (14 entradas, sete principais e sete outros). O slug é o identificador único; não há id redundante. Campos: slug, nome, categoria, resumo, analogia, limiteAnalogia, explicacao, exemplo, pontosComplementares, imagem e alt. Um a três complementos por tema. A ordem do array define o próximo componente, com retorno ao primeiro após monitor.
-src/data/site.ts concentra textos de interface. Metadados globais em index.html; títulos por rota no Layout. Conteúdo nunca depende do PDF no runtime e não carrega a extração.
+## Base e publicação
+React 19 + TypeScript 7 + Vite 8, Tailwind CSS v4 com @tailwindcss/vite e @import "tailwindcss". React Router 7 declarativo com HashRouter/Routes/Route em src/App.tsx.
+Vite base=/site-hardware/. URLs no host seguem /site-hardware/#/componentes/:slug; a parte após # não é enviada ao servidor, permitindo recarga em hospedagem estática sem fallback de rotas no GitHub Pages.
+.github/workflows/deploy.yml faz npm ci, npm run build e publica dist em GitHub Pages em pushes para main. Workflow existente preservado; não se declara conclusão de deploy sem consultar seu resultado.
+Node 26.x e lockfile mantidos. vercel.json permanece como configuração legada, sem implantação Vercel ou migração nesta tarefa.
 
-## UI
-- components/Layout: marca, menu de três links sempre disponível (quebra de linha no mobile), link de pular navegação, main e rodapé. NavLink marca a rota ativa. useEffect atualiza título e move o foco ao main apenas nas trocas de pathname; a primeira visita preserva a ordem de Tab.
-- components/ComponentCard: card com um único link real, imagem, nome e resumo.
-- pages/Home: apresentação, CTA, visão visual das funções e contexto de extensão (substitui a antiga proposta de /sobre).
-- pages/Catalog: duas seções com âncoras e grade responsiva de cards.
-- pages/Detail: nome → figura → analogia/limite → função/exemplo → complementos → navegação.
-- pages/Evaluation: integra Google Forms condicionalmente à URL pública validada, com iframe responsivo e alternativa em outra aba. Sem URL válida, mostra pendência. components/EvaluationCallout oferece chamada ao final do início e dos detalhes.
-- pages/NotFound: recuperação para início ou catálogo.
+## Dados e UI
+src/data/componentes.ts contém as 14 entradas (sete principais e sete outras), identificadas por slug. Campos: nome, categoria, resumo, analogia, limiteAnalogia, explicacao, exemplo, pontosComplementares, imagem e alt. Conteúdo não foi modificado nesta correção.
+src/data/site.ts centraliza textos de UI; src/config/site.ts mantém a única URL pública do Forms.
+Home, Catalog, Detail, Evaluation e NotFound compõem as páginas; ComponentCard e Layout são compartilhados. Layout atualiza título/foco quando o pathname interno do Router muda.
 
-SVGs originais e independentes em public/imagens; sem fontes remotas, bibliotecas de ícones ou UI. src/index.css define tokens Tailwind v4, estilos e breakpoints 950/700/480px. Layouts usam Grid/Flex e fontes do sistema. Os blocos de conteúdo são seções semânticas, preparados para evolução sem acoplar texto a efeitos. Não existem animações nem interações de quiz nesta entrega.
+## Recursos públicos e links de seção
+Home, cards e detalhes já passaram a usar assetUrl no commit a89d461. src/utils/assetUrl.ts mantém a base real do Vite e protege contra duplicação para caminhos já resolvidos com ou sem barra inicial. HTTPS, //, data: e blob: são preservados. Os dados continuam identificando arquivos de public por caminhos /imagens/...; a resolução ocorre na UI.
+SectionLink usa useHref/useLocation para produzir um destino coerente com o Router e associa aria-controls ao ID. No clique normal, previne navegação, foca o destino sem rolar e chama scrollIntoView: smooth normalmente, auto com movimento reduzido. Assim o hash da rota não é substituído por #principais, #outros ou #conteudo. Funciona para skip link e catálogo; seções têm IDs estáveis, tabIndex=-1 e scroll-margin-top de 2rem. O cabeçalho atual não é fixo/sticky.
+CSS preserva identidade visual; trilhas da hero usam minmax(0,...), filhos flex/grid podem encolher e textos/botões podem quebrar dentro do espaço disponível. Não há overflow-x:hidden no body.
 
-## Privacidade
-Sem backend, banco, autenticação, cookies de coleta ou armazenamento de respostas pelo site. Com googleFormsUrl vazia não há iframe nem requisição ao Google; com URL real configurada, o iframe carrega Google Forms e o envio ocorre somente no serviço externo. O site informa participação voluntária e ausência de solicitação de dados pessoais; não controla a persistência ou as políticas internas do Google. Não há endpoint próprio de envio. Não colocar segredos em VITE_: esses valores entram no bundle.
-referencias/, .env e chaves são ignorados. Não copiar referências para public ou importá-las no código.
+## Formulário e privacidade
+Iframe responsivo e alternativa externa com target=_blank/rel=noopener noreferrer; URL real não foi alterada. Página mantém aviso honesto para URL ausente/inválida. Sem backend, banco, autenticação, rastreamento ou armazenamento próprio de respostas.
+A renderização externa e as permissões do Google não podem ser aprovadas com os testes interceptados. O script administrativo não foi executado e nenhuma resposta foi enviada nesta correção.
 
-## Verificação e comandos
-- npm run dev: Vite local.
-- npm test: 25 verificações com node:test; 14 temas exatos, slugs únicos, categorias, campos essenciais, assets locais leves e correções essenciais.
-- npm run lint: Oxlint sobre src, tests e configurações.
-- npm run build: tsc -b e vite build, saída em dist.
-- npm run test:e2e: Playwright com Edge já instalado, 48 cenários em desktop 1280px e mobile 320px. Verifica rotas reais, imagens carregadas, próximo/voltar, histórico, título, foco, teclado, ausência de overflow e estado sem coleta. Inclui reflow com zoom CSS 200%, que não substitui zoom nativo ou leitor de tela.
-- npm run preview: servir build localmente.
-
-Playwright é a única dependência nova de desenvolvimento; não entra no bundle. Testes iniciam e encerram servidor próprio em 127.0.0.1:4173; não reutilizam processos desconhecidos. Capturas em test-results/, ignoradas. PLAYWRIGHT_CHANNEL permite outro navegador instalado (padrão msedge). Navegadores adicionais são opcionais e não fazem parte do runtime.
-Leitor de tela, zoom nativo, dispositivo físico e aceite acadêmico ainda exigem conferência humana. Detalhes em HANDOFF.md.
-
-## Configuração e criação do formulário
-src/config/site.ts contém a única configuração pública googleFormsUrl, já preenchida com a URL real pela usuária. src/lib/googleForms.ts aceita HTTPS de docs.google.com e apenas /forms/d/e/:id/viewform ou /forms/d/:id/viewform, rejeitando edição, encurtadores e outras origens. Normaliza sem query/fragmento e deriva ?embedded=true. Não resolve redirecionamentos nem verifica existência/publicação do formulário: isso exige o link real e revisão humana.
-Iframe com largura 100%, altura 1600px, título acessível, lazy loading e alternativa target=_blank/rel=noopener noreferrer. Altura fixa com rolagem interna evita depender de acesso ao documento de outra origem; pode ser ajustada após conferir o tema real. Sem tentativa de ler respostas ou confirmação do iframe, pois são de outra origem.
-scripts/criar-formulario.gs é ferramenta administrativa separada, não backend nem código enviado ao visitante. Apenas FormApp e Logger; cria um formulário por execução, sem gatilhos/planilha. A função não foi executada no Google. Testes de script usam vm com serviços simulados; testes de configuração interceptam módulo e iframe, sem submissão externa.
-
-Verificação adicional: npm run test:build valida dist e serve preview em 4187 para consultar URLs internas e assets. Precisa de npm run build antes. QUALIDADE.md registra 25 testes locais, 48 cenários de navegador, 2 testes de build e a conferência real separada do Google.
-
-Preparação de produção: engines.node=26.x e .nvmrc=26 alinham o runtime de build; package-lock.json preserva as versões. README detalha futura importação na Vercel (Vite, raiz ./, npm ci, npm run build, dist). Não há variáveis de ambiente obrigatórias nem implantação nesta entrega.
+## Verificações
+npm test cobre dados, assets, URL, metadados e script simulado. npm run lint usa Oxlint; npm run build inclui TypeScript.
+playwright.config.ts usa o base do Vite e seis projetos (320/375/390/768/1024/1280px); tests/browser/support.ts centraliza URLs com hash. Testes antigos foram adaptados sem remover verificação de imagens, navegação, título, contraste e teclado.
+playwright.production.config.ts inicia o preview do build na porta 4175 e usa a mesma base/larguras, com testes próprios que não dependem de módulos TS servidos pelo Vite. npm run test:production recompila antes. npm run test:build consulta arquivos e URLs de produção na porta 4187. Google é interceptado nos testes de UI.
+Capturas ficam em test-results/ e não são versionadas. Resultados reais e limitações em HANDOFF.md; leitor de tela, zoom nativo e celular físico não são substituídos por emulação.

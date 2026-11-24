@@ -20,17 +20,18 @@ test('build distribui só assets públicos e não expõe a referência interna',
 test('preview de produção responde a URLs internas diretas e mantém SVGs/JS/CSS acessíveis', async () => {
   const server = await preview({ preview: { host: '127.0.0.1', port: 4187, strictPort: true } })
   const origin = 'http://127.0.0.1:4187'
+  const base = server.config.base
   try {
     for (const path of ['/', '/componentes', '/avaliacao', '/rota-inexistente', ...componentes.map(item => '/componentes/' + item.slug)]) {
-      const response = await fetch(origin + path)
+      const response = await fetch(origin + base + '#' + path)
       assert.equal(response.status, 200, path)
       assert.match(response.headers.get('content-type'), /text\/html/)
       assert.match(await response.text(), /<div id="root"><\/div>/)
     }
     const html = readFileSync(new URL('../dist/index.html', import.meta.url), 'utf8')
-    const bundles = [...html.matchAll(/(?:src|href)="(\/assets\/[^"]+)"/g)].map(match => match[1])
+    const bundles = [...html.matchAll(/(?:src|href)="([^"]+\.(?:js|css))"/g)].map(match => match[1])
     assert.ok(bundles.length >= 2)
-    for (const path of ['/favicon.svg', ...componentes.map(item => item.imagem), ...bundles]) {
+    for (const path of [base + 'favicon.svg', ...componentes.map(item => base + item.imagem.slice(1)), ...bundles]) {
       const response = await fetch(origin + path)
       assert.equal(response.status, 200, path)
       assert.match(response.headers.get('content-type'), path.endsWith('.svg') ? /image\/svg\+xml/ : /javascript|text\/css/)

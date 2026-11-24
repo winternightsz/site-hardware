@@ -11,3 +11,6 @@
 - Execute npm run lint e npm run build após mudanças. Ao alterar UI, verifique teclado, navegação e responsividade; declare limites de verificação.
 - Atualize docs/BACKLOG.md e docs/HANDOFF.md ao finalizar tarefas. Só conclua itens com evidências.
 - Não faça push, deploy nem altere contas externas sem autorização explícita.
+
+- Hospedagem atual: GitHub Pages, Vite base /site-hardware/ e HashRouter. Use assetUrl para recursos de public e SectionLink para rolagem na mesma página; não substitua o hash da rota com âncoras comuns.
+- Valide também npm run test:production com a base real, nas larguras 320/375/390/768/1024/desktop. Preserve o workflow existente; push em main pode disparar publicação automática e exige autorização explícita.

@@ -6,11 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "oxlint src tests vite.config.ts playwright.config.ts",
+    "lint": "oxlint src tests vite.config.ts playwright.config.ts playwright.production.config.ts",
     "preview": "vite preview",
-    "test": "node --test tests/conteudo.test.mjs tests/formulario.test.mjs tests/qualidade.test.mjs",
+    "test": "node --test tests/conteudo.test.mjs tests/formulario.test.mjs tests/qualidade.test.mjs tests/assets.test.mjs",
     "test:e2e": "playwright test",
-    "test:build": "node --test tests/build.test.mjs"
+    "test:build": "node --test tests/build.test.mjs",
+    "test:production": "npm run build && playwright test --config playwright.production.config.ts"
   },
   "dependencies": {
     "react": "^19.3.1",

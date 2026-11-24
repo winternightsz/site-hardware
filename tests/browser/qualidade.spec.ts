@@ -1,3 +1,4 @@
+import { appUrl, publicUrl } from './support'
 import { test, expect } from '@playwright/test'
 import { componentes } from '../../src/data/componentes'
 import { site } from '../../src/data/site'
@@ -15,17 +16,17 @@ test('metadados, links internos, imagens e console das páginas do MVP', async (
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()) })
   const paths = ['/', '/componentes', ...componentes.map(item => '/componentes/' + item.slug), '/avaliacao']
   const known = new Set(paths)
-  const assets = new Set<string>(['/favicon.svg'])
+  const assets = new Set<string>([publicUrl('/favicon.svg')])
   for (const path of paths) {
-    await page.goto(path)
+    await page.goto(appUrl(path))
     await expect(page.locator('html')).toHaveAttribute('lang', 'pt-BR')
     await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1)
     await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /.+/)
-    for (const href of await page.locator('a[href^="/"]').evaluateAll(links => links.map(link => link.getAttribute('href')))) {
-      expect(known.has(href || ''), 'Link interno: ' + href).toBe(true)
+    for (const href of await page.locator('a[href^="#/"]').evaluateAll(links => links.map(link => link.getAttribute('href')))) {
+      expect(known.has((href || '').slice(1).split('#')[0]), 'Link interno: ' + href).toBe(true)
     }
-    for (const href of await page.locator('a[href^="#"]').evaluateAll(links => links.map(link => link.getAttribute('href')))) {
-      expect(await page.locator('[id="' + href?.slice(1) + '"]').count(), 'Âncora: ' + href).toBe(1)
+    for (const id of await page.locator('a[aria-controls]').evaluateAll(links => links.map(link => link.getAttribute('aria-controls')))) {
+      expect(await page.locator('[id="' + id + '"]').count(), 'Âncora: ' + id).toBe(1)
     }
     for (const src of await page.locator('img').evaluateAll(images => images.map(image => image.getAttribute('src')))) {
       if (src) assets.add(src)
@@ -41,7 +42,7 @@ test('metadados, links internos, imagens e console das páginas do MVP', async (
 })
 
 test('fluxo completo, recarregamento e título com barra final', async ({ page }) => {
-  await page.goto('/')
+  await page.goto(appUrl('/'))
   await page.getByRole('link', { name: site.explore }).first().click()
   await page.locator('.card-link').first().click()
   await page.reload()
@@ -50,13 +51,13 @@ test('fluxo completo, recarregamento e título com barra final', async ({ page }
   await page.reload()
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(site.evaluationTitle)
   for (const path of ['/componentes/', '/componentes/monitor/', '/avaliacao/']) {
-    await page.goto(path)
+    await page.goto(appUrl(path))
     await expect(page).not.toHaveTitle(new RegExp(site.notFoundTitle))
   }
 })
 
 test('foco de teclado, marcadores e contraste dos textos principais', async ({ page }) => {
-  await page.goto('/componentes')
+  await page.goto(appUrl('/componentes'))
   const card = page.locator('.card-link').first()
   await card.focus()
   await expect(card).toBeFocused()

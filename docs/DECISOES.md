@@ -43,3 +43,9 @@ Animações com respeito a prefers-reduced-motion, quiz breve sem persistência,
 - D28 (tomada): explicitar Node 26.x em package.json/.nvmrc, versão já validada localmente e suportada para build na Vercel conforme documentação consultada. Publicação futura somente pela interface, pelo responsável; nenhuma CLI ou deploy nesta etapa.
 
 - D29 (executada): commit inicial e11e19cef5581ac2e170f5e15a47fd3df8b899f6 enviado a origin/main e confirmado no GitHub em 06/11/2026. Documentação de fechamento em commit separado; Vercel permanece exclusivamente como preparação manual futura.
+
+## Correções GitHub Pages — 24/11/2026
+- D30 (tomada): preservar os commits b16fa06/a89d461 do Codespaces, HashRouter, base /site-hardware/ e workflow de publicação. A arquitetura anterior de BrowserRouter/Vercel não descreve a hospedagem atual.
+- D31 (tomada): reutilizar e fortalecer assetUrl, sem trocar ilustrações, textos ou URL do Forms. Caminhos externos/importados já resolvidos não recebem a base novamente.
+- D32 (tomada): SectionLink faz rolagem/foco por ID sem navegar, usando smooth ou auto conforme movimento reduzido. Corrige também o skip link afetado pelo HashRouter; cabeçalho atual é estático, com margem de rolagem de 2rem.
+- D33 (tomada): adaptar testes existentes a base/hash e adicionar produção real no preview e seis larguras. Não acrescentar dependências nem alterar o workflow.
