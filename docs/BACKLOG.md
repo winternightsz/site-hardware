@@ -1,9 +1,9 @@
 # Backlog
-Atualizado em 24/11/2026. P0 = fundação; P1 = essencial; P2 = opcional. Implementação e aceite humano são estados distintos.
+Atualizado em 25/11/2026. P0 = fundação; P1 = essencial; P2 = opcional. Implementação e aceite humano são estados distintos.
 
 | ID | Prioridade | Tarefa | Status | Critério verificável / evidência |
 | --- | --- | --- | --- | --- |
-| MVP-01 | P0 | Base Vite/React/TS, Tailwind v4 e Router declarativo na raiz | Concluído | Instalação, lint/build aprovados; HashRouter/Routes/Route em src/App.tsx; base /site-hardware/ e workflow Pages preservados. |
+| MVP-01 | P0 | Base Vite/React/TS, Tailwind v4 e Router declarativo na raiz | Concluído | Instalação, lint/build aprovados; HashRouter/Routes/Route em src/App.tsx; base / para domínio personalizado e workflow Pages preservados. |
 | MVP-02 | P0 | Git e proteção de referência/segredos | Concluído | Git local; check-ignore protege referencias/, .env, node_modules e dist. Branch main e origin configurados para o GitHub indicado; sem deploy do site. |
 | MVP-03 | P0 | Extração e revisão inicial da referência | Concluído | 41 páginas extraídas; rastreio e correções em CONTEUDO.md. |
 | MVP-04 | P0 | Documentação de produto e continuidade | Concluído | AGENTS, README e docs atualizados; QUALIDADE.md reúne evidências/limites da revisão, e HANDOFF inclui roteiro de demonstração. |
@@ -47,3 +47,8 @@ Os SVGs estáticos desta entrega não implementam interatividade. Nenhum item fu
 - GH-04 (Concluído): testes antigos preservados e adaptados à base/hash; 27 locais, 2 do build, 156 em desenvolvimento e 18 em produção passaram. Capturas/limites em HANDOFF.md.
 - GH-05 (Concluído): documentação técnica reconciliada com HashRouter, base e publicação automática GitHub Pages.
 - GH-06 (Concluído para fa359c0): workflow 45493493222 concluído com success; checagem do site público confirmou 18 imagens carregadas, seções sem mudança de rota, recarga do detalhe e avaliação presente em 390px sem overflow. Google foi isolado e nenhuma resposta foi enviada. Leitor de tela, celular físico e serviço Google continuam com seus limites registrados.
+
+## Domínio personalizado — 25/11/2026
+- DOM-01 (Concluído): domínio associado no Pages, projeto servido na raiz, certificado aprovado, HTTPS 200 e A para IP Pages conferidos. DNS health registra InvalidARecordError; não foi aprovado falsamente.
+- DOM-02 (Concluído): base /, teste de duplicação compatível com raiz e documentação atualizados; build/lint, 27 testes locais, 2 do build, 52 de navegação e 18 de produção aprovados. Sem mudança em conteúdo, Forms ou workflow.
+- DOM-03 (Pendente — responsável): revisar alerta de registro A para subdomínio e restrição de CNAME no FreeDNS; conferir/ativar Enforce HTTPS. Não houve alteração externa pelo agente.

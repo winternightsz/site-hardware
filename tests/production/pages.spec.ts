@@ -27,7 +27,8 @@ test('build Pages: todas as páginas, imagens e larguras sem overflow', async ({
       expect(await image.evaluate(img => (img as HTMLImageElement).naturalWidth)).toBeGreaterThan(0)
       const src = await image.getAttribute('src')
       expect(src?.startsWith(basePath + 'imagens/'), src).toBe(true)
-      expect(src?.includes(basePath + basePath.slice(1))).toBe(false)
+      expect(src?.startsWith('//')).toBe(false)
+      if (basePath !== '/') expect(src?.includes(basePath + basePath.slice(1))).toBe(false)
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), route).toBe(true)
     const file = route === '/' ? 'home' : route === '/componentes' ? 'catalogo' :

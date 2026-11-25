@@ -7,19 +7,19 @@ Use Node 26.x (package.json/.nvmrc) e, na raiz do projeto:
 npm ci
 npm run dev -- --host 127.0.0.1 --port 5173 --strictPort
 ```
-Abra **http://127.0.0.1:5173/site-hardware/#/**. Ctrl+C encerra o servidor. Não abra index.html pelo explorador de arquivos.
+Abra **http://127.0.0.1:5173/#/**. Ctrl+C encerra o servidor. Não abra index.html pelo explorador de arquivos.
 
 ## Rotas e hospedagem atuais
-O código usa **HashRouter**, base Vite **/site-hardware/** e **GitHub Pages**. Exemplos de caminhos:
-- /site-hardware/#/ — início.
-- /site-hardware/#/componentes — catálogo.
-- /site-hardware/#/componentes/memoria-ram — detalhe.
-- /site-hardware/#/avaliacao — avaliação.
+O código usa **HashRouter**, base Vite **/** e **GitHub Pages**. Exemplos de caminhos:
+- /#/ — início.
+- /#/componentes — catálogo.
+- /#/componentes/memoria-ram — detalhe.
+- /#/avaliacao — avaliação.
 O servidor recebe o caminho antes do hash, portanto recarregar uma rota interna não exige rewrite do GitHub Pages. Links de seção usam SectionLink para rolar e focar IDs existentes sem substituir o hash da rota; não use href="#principais" diretamente.
 
 Repositório: [winternightsz/site-hardware](https://github.com/winternightsz/site-hardware), branch main.
 .github/workflows/deploy.yml já publica dist no Pages em pushes para main e permite execução manual. O workflow foi preservado. Após um push, acompanhe a execução em Actions e use o endereço exibido em Settings → Pages; não trate push como confirmação de deploy concluído.
-vercel.json é uma configuração legada para outro host, não o mecanismo atual de publicação. Uma eventual migração para a raiz de outro domínio exige revisar base e URLs, e está fora desta tarefa.
+vercel.json é uma configuração legada para outro host, não o mecanismo atual de publicação. O workflow de GitHub Pages permanece sem alterações.
 
 ## Build e verificações
 ```sh
@@ -35,14 +35,14 @@ npm run test:production
 - build: TypeScript e Vite para dist, usando a base real do Pages.
 - test:build: 2 verificações de saída/arquivos e acesso HTTP no preview com base.
 - test:e2e: suíte de desenvolvimento adaptada a HashRouter, preservando testes anteriores e adicionando seções/teclado/movimento reduzido. Seis larguras: 320, 375, 390, 768, 1024 e 1280px.
-- test:production: recompila e testa o bundle real no preview em /site-hardware/, incluindo todas as páginas, naturalWidth das imagens, seções, recarga, menu e iframe isolado.
+- test:production: recompila e testa o bundle real no preview em /, incluindo todas as páginas, naturalWidth das imagens, seções, recarga, menu e iframe isolado.
 
 Playwright usa Edge instalado por padrão; para Chromium, instale-o com npx playwright install chromium e defina PLAYWRIGHT_CHANNEL=chromium. Não é necessário navegador de teste para usar o site. Nenhuma dependência nova foi adicionada nesta correção.
 Para abrir o build manualmente:
 ```sh
 npm run preview -- --host 127.0.0.1 --port 4173 --strictPort
 ```
-Abra **http://127.0.0.1:4173/site-hardware/#/**. Não mantenha preview e test:e2e simultaneamente na porta 4173. Testes de produção usam 4175; test:build usa 4187.
+Abra **http://127.0.0.1:4173/#/**. Não mantenha preview e test:e2e simultaneamente na porta 4173. Testes de produção usam 4175; test:build usa 4187.
 
 ## Estrutura e manutenção
 - src/data/componentes.ts: conteúdo tipado; src/data/site.ts: textos da interface.
@@ -70,3 +70,11 @@ Capturas e relatórios de testes ficam em test-results/, ignorado. Resultados ef
 5. Recarregue a rota de detalhe e navegue pelo menu em tela estreita.
 6. Abra a avaliação e use a alternativa caso o iframe solicite login; não envie dados durante a apresentação.
 7. Confira a página amigável para uma rota inexistente.
+
+## Domínio personalizado — 25/11/2026
+Endereço: **https://segmentandopc.mooo.com/#/**. O domínio está associado ao repositório em Settings → Pages → Custom domain, conforme a API do GitHub. O HTML do projeto é servido na raiz; por isso a base do Vite agora é / e o HashRouter permanece inalterado.
+Antes da mudança, foram confirmados: registro A 185.199.108.153, associação cname=segmentandopc.mooo.com na API, is_served_by_pages=true, certificado HTTPS aprovado para esse domínio e resposta HTTPS 200 com o HTML do projeto. Não se considerou apenas a resolução DNS.
+**Ressalva DNS:** a checagem do GitHub retorna is_valid=false / InvalidARecordError, pois recomenda CNAME para subdomínios e encontrou A. O FreeDNS restringiu CNAME, conforme informado pela responsável. O domínio está sendo servido e possui HTTPS, mas a validação DNS não está aprovada; consultar as opções do FreeDNS permanece pendente.
+**HTTPS:** certificado aprovado e resposta HTTPS confirmada, porém https_enforced=false. O acesso HTTP também responde sem redirecionar. A responsável deve conferir e ativar Enforce HTTPS em Settings → Pages quando disponível. Nenhuma configuração de conta ou DNS foi alterada pelo agente.
+Não foi criado arquivo CNAME: com publicação por GitHub Actions, o domínio fica configurado em Settings → Pages. Assets de public continuam resolvidos por assetUrl e a base atual é lida pelos testes; não se altera o conteúdo educativo nem o Google Forms.
+Para repetir as conferências: Resolve-DnsName segmentandopc.mooo.com -Type A; gh api repos/winternightsz/site-hardware/pages; gh api repos/winternightsz/site-hardware/pages/health. A disponibilidade externa e o estado do certificado podem mudar; consulte novamente antes de futuras mudanças de domínio.

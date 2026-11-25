@@ -49,3 +49,7 @@ Animações com respeito a prefers-reduced-motion, quiz breve sem persistência,
 - D31 (tomada): reutilizar e fortalecer assetUrl, sem trocar ilustrações, textos ou URL do Forms. Caminhos externos/importados já resolvidos não recebem a base novamente.
 - D32 (tomada): SectionLink faz rolagem/foco por ID sem navegar, usando smooth ou auto conforme movimento reduzido. Corrige também o skip link afetado pelo HashRouter; cabeçalho atual é estático, com margem de rolagem de 2rem.
 - D33 (tomada): adaptar testes existentes a base/hash e adicionar produção real no preview e seis larguras. Não acrescentar dependências nem alterar o workflow.
+
+## Domínio personalizado — 25/11/2026
+- D34 (tomada): base / após confirmar associação do domínio na API, HTML do projeto servido pelo Pages, certificado aprovado e HTTPS 200. HashRouter, plugins, conteúdo, Forms e workflow preservados. A decisão não se apoia apenas no registro A.
+- D35 (ressalva externa): health.is_valid=false por InvalidARecordError, apesar de is_served_by_pages=true e HTTPS funcional. Não alterar DNS/contas pelo agente, não declarar DNS aprovado. FreeDNS/CNAME e Enforce HTTPS permanecem para revisão da responsável. Nenhum CNAME criado para publicação por Actions.

@@ -1,3 +1,27 @@
+# Estado atual — domínio personalizado, 25/11/2026
+
+O checkout começou limpo e sincronizado em main, no commit 6f3c493e52e71a72c736fc391337a6999d4d5f5a. O domínio segmentandopc.mooo.com está associado ao Pages pela API; is_served_by_pages=true, certificado aprovado e HTTPS 200 servindo o HTML deste projeto foram conferidos antes de alterar a base. O registro A resolve para 185.199.108.153.
+
+A base do Vite passou a /; HashRouter, plugins, workflow, conteúdo, imagens e Google Forms foram preservados. O teste de duplicação de base foi ajustado para também aceitar raiz. Não foi criado CNAME, pois a publicação usa Actions.
+
+**Pendências externas:** o health do GitHub retorna is_valid=false / InvalidARecordError para o A no subdomínio, recomendando CNAME; a restrição do FreeDNS foi informada pela responsável. O serviço responde, mas não se afirma validação DNS aprovada. Certificado aprovado e HTTPS funcionando não equivalem a redirecionamento: https_enforced=false e HTTP também responde. Revisar DNS com FreeDNS e ativar Enforce HTTPS no Pages quando disponível. Nenhuma configuração externa foi alterada.
+
+## Verificações desta entrega
+- npm run build e npm run lint: aprovados.
+- npm test: 27 aprovados; npm run test:build: 2 aprovados.
+- npm run test:e2e -- --project=mobile --project=desktop: 52 aprovados.
+- npm run test:production: 18 aprovados, nas seis larguras configuradas e com base /.
+- Testes incluem recursos, navegação/recarga, teclado e overflow. Google foi interceptado; não validam permissões nem recebimento de respostas. Não houve nova inspeção visual manual de todas as páginas nesta configuração; permanecem os limites de acessibilidade e serviço externo descritos abaixo.
+
+## Abrir e demonstrar agora
+Use npm run dev -- --host 127.0.0.1 --port 5173 --strictPort e abra http://127.0.0.1:5173/#/.
+Após build, npm run preview -- --host 127.0.0.1 --port 4173 --strictPort serve http://127.0.0.1:4173/#/.
+URL pública esperada após o workflow: https://segmentandopc.mooo.com/#/.
+Demonstre início → componentes → seções → detalhe → recarga → avaliação; confira menu estreito e teclado. Não envie respostas de demonstração.
+
+O push autorizado nesta tarefa dispara o workflow existente. Conferir sua execução em Actions; commit e push não garantem, sozinhos, publicação concluída. Os registros de 24/11 abaixo são históricos: suas URLs com /site-hardware/ e resultados não descrevem a base atual.
+
+---
 # Handoff
 Atualizado em 24/11/2026 — correções de imagens, navegação e responsividade.
 
